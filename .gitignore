@@ -8,3 +8,9 @@ classes
 plugin.xml
 target
 web-app
+
+.idea/
+atlassian-ide-plugin.xml
+*.iml
+*.ipr
+*.iws
