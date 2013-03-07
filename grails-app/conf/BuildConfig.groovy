@@ -1,5 +1,7 @@
 grails.project.work.dir = "target"
 
+def camelVersion = '2.10.4'
+
 grails.project.dependency.resolution = {
 	inherits("global") {
 		excludes 'tomcat'
@@ -18,17 +20,17 @@ grails.project.dependency.resolution = {
 	}
 
 	dependencies {
-		compile('org.apache.camel:camel-core:2.10.4')
-		compile('org.apache.camel:camel-spring:2.10.4') {
+		compile("org.apache.camel:camel-core:${camelVersion}")
+		compile("org.apache.camel:camel-spring:${camelVersion}") {
 			excludes 'spring-aop', 'spring-beans', 'spring-core', 'spring-expression', 'spring-asm', 'spring-tx', 'spring-context'
 		}
-		compile('org.apache.camel:camel-groovy:2.10.4') {
+		compile("org.apache.camel:camel-groovy:${camelVersion}") {
 			excludes 'spring-context', 'spring-aop', 'spring-tx', 'groovy-all'
 		}
-		compile('org.apache.camel:camel-stream:2.10.3')
+		compile("org.apache.camel:camel-stream:${camelVersion}")
 	}
 
 	plugins {
-		build(":release:2.2.0", ':rest-client-builder:1.0.3') { export = false }
+		build(":release:2.2.0") { export = false }
 	}
 }

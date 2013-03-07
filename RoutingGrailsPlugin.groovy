@@ -11,6 +11,7 @@ import org.grails.plugins.routing.processor.ClosureProcessor
 class RoutingGrailsPlugin {
 	def version          = '1.2.4'
 	def grailsVersion    = '2.2.0 > *'
+
 	def dependsOn        = [:]
 	def loadAfter        = [ 'controllers', 'services' ]
 	def artefacts        = [ new RouteArtefactHandler() ]
@@ -23,6 +24,7 @@ class RoutingGrailsPlugin {
 	def doWithSpring = {
 		def config = application.config.grails.routing
 		def camelContextId = config?.camelContextId ?: 'camelContext'
+        def useMDCLogging = config?.useMDCLogging ?: false
 		def routeClasses = application.routeClasses
 
 		initializeRouteBuilderHelpers()
@@ -44,7 +46,7 @@ class RoutingGrailsPlugin {
 
 		xmlns camel:'http://camel.apache.org/schema/spring'
 
-		camel.camelContext(id: camelContextId) {
+		camel.camelContext(id: camelContextId, useMDCLogging: useMDCLogging) {
 			def threadPoolProfileConfig = config?.defaultThreadPoolProfile
 
 			camel.threadPoolProfile(
@@ -69,7 +71,7 @@ class RoutingGrailsPlugin {
 		addDynamicMethods(application.serviceClasses, template);
 
 		if (isQuartzPluginInstalled(application))
-			addDynamicMethods(application.taskClasses, template);
+			addDynamicMethods(application.jobClasses, template);
 	}
 
 	def watchedResources = [
@@ -134,7 +136,7 @@ class RoutingGrailsPlugin {
 	private isQuartzPluginInstalled(application) {
 		// this is a nasty implementation... maybe there's something better?
 		try {
-			def tasks = application.taskClasses
+			def tasks = application.jobClasses
 			return true
 		} catch (e) {
 			return false
