@@ -9,7 +9,7 @@ import org.grails.plugins.routing.RouteArtefactHandler
 import org.grails.plugins.routing.processor.ClosureProcessor
 
 class RoutingGrailsPlugin {
-	def version          = '1.2.4'
+	def version          = '1.2.5'
 	def grailsVersion    = '2.2.0 > *'
 
 	def dependsOn        = [:]
