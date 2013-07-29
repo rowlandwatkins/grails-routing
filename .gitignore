@@ -8,6 +8,7 @@ classes
 plugin.xml
 target
 web-app
+.class
 
 .idea/
 atlassian-ide-plugin.xml
