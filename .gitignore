@@ -13,6 +13,7 @@ plugin.xml
 target
 web-app
 .class
+out/
 
 .idea/
 atlassian-ide-plugin.xml
