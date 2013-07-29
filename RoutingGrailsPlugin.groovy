@@ -9,11 +9,11 @@ import org.grails.plugins.routing.RouteArtefactHandler
 import org.grails.plugins.routing.processor.ClosureProcessor
 
 class RoutingGrailsPlugin {
-	def version          = '1.2.5'
+	def version          = '1.2.6'
 	def grailsVersion    = '2.2.0 > *'
 
 	def dependsOn        = [:]
-	def loadAfter        = [ 'controllers', 'services' ]
+	def loadAfter        = [ 'mail','controllers', 'services' ]
 	def artefacts        = [ new RouteArtefactHandler() ]
 	def author           = 'Matthias Hryniszak, Chris Navta'
 	def authorEmail      = 'padcom@gmail.com, chris@ix-n.com'
@@ -69,6 +69,7 @@ class RoutingGrailsPlugin {
 
 		addDynamicMethods(application.controllerClasses, template);
 		addDynamicMethods(application.serviceClasses, template);
+        addDynamicMethods(application.routeClasses, template);
 
 		if (isQuartzPluginInstalled(application))
 			addDynamicMethods(application.jobClasses, template);
@@ -76,14 +77,16 @@ class RoutingGrailsPlugin {
 
 	def watchedResources = [
 		"file:./grails-app/controllers/**/*Controller.groovy",
-		"file:./grails-app/services/**/*Service.groovy"
+		"file:./grails-app/services/**/*Service.groovy",
+        "file:./grails-app/processors/**/*Processor.groovy"
 	]
 
 	def onChange = { event ->
 		def artifactName = "${event.source.name}"
-
-		if (artifactName.endsWith('Controller') || artifactName.endsWith('Service')) {
-			def artifactType = (artifactName.endsWith('Controller')) ? 'controller' : 'service'
+		if (artifactName.endsWith('Controller') || artifactName.endsWith('Service') || artifactName.endsWith('Processor')) {
+            def parts =   artifactName.split("(?<!^)(?=[A-Z])")
+			//def artifactType = (artifactName.endsWith('Controller')) ? 'controller' : 'service'
+            def artifactType = parts[1]
 			def grailsClass = application."${artifactType}Classes".find { it.fullName == artifactName }
 			addDynamicMethods([ grailsClass ], event.ctx.getBean('producerTemplate'))
 		}
