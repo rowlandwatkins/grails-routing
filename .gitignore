@@ -1,4 +1,3 @@
-.gitignore
 *.zip
 *.sha1
 *.iml
@@ -20,3 +19,4 @@ atlassian-ide-plugin.xml
 *.iml
 *.ipr
 *.iws
+*.log

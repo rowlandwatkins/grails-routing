@@ -1,20 +1,14 @@
-grails.project.work.dir = "target"
+grails.project.work.dir = 'target'
 
-def camelVersion = '2.11.1'
+def camelVersion = '2.12.1'
 
 grails.project.dependency.resolution = {
-	inherits("global") {
-		excludes 'tomcat'
-		excludes 'hibernate'
-	}
 
-	log "warn"
+	inherits 'global'
+	log 'warn'
 
 	repositories {
-		grailsPlugins()
-		grailsHome()
 		grailsCentral()
-
 		mavenLocal()
 		mavenCentral()
 	}
@@ -28,6 +22,8 @@ grails.project.dependency.resolution = {
 			excludes 'spring-context', 'spring-aop', 'spring-tx', 'groovy-all'
 		}
 		compile("org.apache.camel:camel-stream:${camelVersion}")
+
+		test("org.apache.camel:camel-test:${camelVersion}") { excludes "junit" }
 	}
 
 	plugins {
